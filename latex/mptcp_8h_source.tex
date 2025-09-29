@@ -1,0 +1,34 @@
+\doxysection{mptcp.\+h}
+\hypertarget{mptcp_8h_source}{}\label{mptcp_8h_source}\mbox{\hyperlink{mptcp_8h}{См. документацию.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ \_NET\_OVPN\_DCO\_MPTCP\_H\_}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ \_NET\_OVPN\_DCO\_MPTCP\_H\_}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}peer.h"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <linux/net.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <linux/skbuff.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <linux/types.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <linux/workqueue.h>}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{int}\ \_\_init\ \mbox{\hyperlink{mptcp_8h_ac33b4a55d9be20c72acaf6ca28f7a3bb}{ovpn\_mptcp\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{mptcp_8h_a4bd004fbd0b5b7c4de1bb6561ac805fa}{ovpn\_queue\_mptcp\_skb}}(\textcolor{keyword}{struct}\ ovpn\_peer\ *peer,\ \textcolor{keyword}{struct}\ sk\_buff\ *skb);}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{mptcp_8h_a22f286248e0973889a7701fe2638b6ba}{ovpn\_mptcp\_socket\_attach}}(\textcolor{keyword}{struct}\ socket\ *sock,\ \textcolor{keyword}{struct}\ ovpn\_peer\ *peer);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{mptcp_8h_a3eb06db7d0a3f5232f2c51b5683563d7}{ovpn\_mptcp\_socket\_detach}}(\textcolor{keyword}{struct}\ socket\ *sock);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ovpn\_mptcp\_send\_skb(\textcolor{keyword}{struct}\ ovpn\_peer\ *peer,\ \textcolor{keyword}{struct}\ sk\_buff\ *skb)}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ u16\ len\ =\ skb-\/>len;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ *(\_\_be16\ *)\_\_skb\_push(skb,\ \textcolor{keyword}{sizeof}(u16))\ =\ htons(len);}
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{mptcp_8h_a4bd004fbd0b5b7c4de1bb6561ac805fa}{ovpn\_queue\_mptcp\_skb}}(peer,\ skb);}
+\DoxyCodeLine{00070\ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \_NET\_OVPN\_DCO\_MPTCP\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

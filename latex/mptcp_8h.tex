@@ -1,0 +1,141 @@
+\doxysection{Файл mptcp.\+h}
+\hypertarget{mptcp_8h}{}\label{mptcp_8h}\index{mptcp.h@{mptcp.h}}
+
+
+Заголовочный файл для поддержки MPTCP в Open\+VPN DCO.  
+
+
+{\ttfamily \#include "{}peer.\+h"{}}\newline
+{\ttfamily \#include $<$linux/net.\+h$>$}\newline
+{\ttfamily \#include $<$linux/skbuff.\+h$>$}\newline
+{\ttfamily \#include $<$linux/types.\+h$>$}\newline
+{\ttfamily \#include $<$linux/workqueue.\+h$>$}\newline
+\doxysubsubsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+int \+\_\+\+\_\+init \mbox{\hyperlink{mptcp_8h_ac33b4a55d9be20c72acaf6ca28f7a3bb}{ovpn\+\_\+mptcp\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Инициализирует статические объекты MPTCP. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{mptcp_8h_a4bd004fbd0b5b7c4de1bb6561ac805fa}{ovpn\+\_\+queue\+\_\+mptcp\+\_\+skb}} (struct ovpn\+\_\+peer \texorpdfstring{$\ast$}{*}peer, struct sk\+\_\+buff \texorpdfstring{$\ast$}{*}skb)
+\begin{DoxyCompactList}\small\item\em Помещает skb в очередь для отправки через MPTCP. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{mptcp_8h_a22f286248e0973889a7701fe2638b6ba}{ovpn\+\_\+mptcp\+\_\+socket\+\_\+attach}} (struct socket \texorpdfstring{$\ast$}{*}sock, struct ovpn\+\_\+peer \texorpdfstring{$\ast$}{*}peer)
+\begin{DoxyCompactList}\small\item\em Присоединяет сокет MPTCP к пиру Open\+VPN. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{mptcp_8h_a3eb06db7d0a3f5232f2c51b5683563d7}{ovpn\+\_\+mptcp\+\_\+socket\+\_\+detach}} (struct socket \texorpdfstring{$\ast$}{*}sock)
+\begin{DoxyCompactList}\small\item\em Отсоединяет сокет MPTCP от пира Open\+VPN. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Заголовочный файл для поддержки MPTCP в Open\+VPN DCO. 
+
+Это дополнение Open\+VPN-\/\+DCO для поддержки MPTCP. Оно определяет интерфейсы для инициализации MPTCP, управления сокетами и отправки/получения пакетов по MPTCP-\/соединениям.
+
+\begin{DoxyCopyright}{Авторство}
+Copyright (C) 2019-\/2023 Open\+VPN, Inc. 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{Автор}
+Antonio Quartulli \href{mailto:antonio@openvpn.net}{\texttt{antonio@openvpn.\+net}} (Оригинальная реализация для TCP) 
+
+Ivan Pecherskiy \href{mailto:ipecherskiy@avo.tel}{\texttt{ipecherskiy@avo.\+tel}} (Адаптация для MPTCP и доработки) 
+\end{DoxyAuthor}
+
+
+\label{doc-func-members}
+\Hypertarget{mptcp_8h_doc-func-members}
+\doxysubsection{Функции}
+\Hypertarget{mptcp_8h_ac33b4a55d9be20c72acaf6ca28f7a3bb}\index{mptcp.h@{mptcp.h}!ovpn\_mptcp\_init@{ovpn\_mptcp\_init}}
+\index{ovpn\_mptcp\_init@{ovpn\_mptcp\_init}!mptcp.h@{mptcp.h}}
+\doxysubsubsection{\texorpdfstring{ovpn\_mptcp\_init()}{ovpn\_mptcp\_init()}}
+{\footnotesize\ttfamily \label{mptcp_8h_ac33b4a55d9be20c72acaf6ca28f7a3bb} 
+int \+\_\+\+\_\+init ovpn\+\_\+mptcp\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Инициализирует статические объекты MPTCP. 
+
+Эта функция должна быть вызвана при инициализации модуля для настройки необходимых структур данных для поддержки MPTCP. \begin{DoxyReturn}{Возвращает}
+0 в случае успеха, или код ошибки в противном случае.
+\end{DoxyReturn}
+Инициализирует статические объекты MPTCP.
+
+Создает кастомную структуру протокола {\ttfamily ovpn\+\_\+mptcp\+\_\+prot}, копируя {\ttfamily mptcp\+\_\+prot} и переопределяя колбэки {\ttfamily recvmsg} и {\ttfamily sock\+\_\+is\+\_\+readable} для интеграции с Open\+VPN. \begin{DoxyReturn}{Возвращает}
+Всегда возвращает 0. 
+\end{DoxyReturn}
+\Hypertarget{mptcp_8h_a22f286248e0973889a7701fe2638b6ba}\index{mptcp.h@{mptcp.h}!ovpn\_mptcp\_socket\_attach@{ovpn\_mptcp\_socket\_attach}}
+\index{ovpn\_mptcp\_socket\_attach@{ovpn\_mptcp\_socket\_attach}!mptcp.h@{mptcp.h}}
+\doxysubsubsection{\texorpdfstring{ovpn\_mptcp\_socket\_attach()}{ovpn\_mptcp\_socket\_attach()}}
+{\footnotesize\ttfamily \label{mptcp_8h_a22f286248e0973889a7701fe2638b6ba} 
+int ovpn\+\_\+mptcp\+\_\+socket\+\_\+attach (\begin{DoxyParamCaption}\item[{struct socket \texorpdfstring{$\ast$}{*}}]{sock}{, }\item[{struct ovpn\+\_\+peer \texorpdfstring{$\ast$}{*}}]{peer}{}\end{DoxyParamCaption})}
+
+
+
+Присоединяет сокет MPTCP к пиру Open\+VPN. 
+
+Настраивает колбэки сокета для обработки MPTCP-\/трафика для указанного пира. 
+\begin{DoxyParams}{Аргументы}
+{\em sock} & Указатель на структуру {\ttfamily socket}, представляющую MPTCP-\/сокет. \\
+\hline
+{\em peer} & Указатель на структуру {\ttfamily ovpn\+\_\+peer}, к которой присоединяется сокет. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+0 в случае успеха, или код ошибки в противном случае.
+\end{DoxyReturn}
+Присоединяет сокет MPTCP к пиру Open\+VPN.
+
+Инициализирует очередь передачи, сохраняет существующие колбэки сокета и устанавливает кастомные обработчики для MPTCP. Проверяет, что сокет является MPTCP и находится в состоянии ESTABLISHED. 
+\begin{DoxyParams}{Аргументы}
+{\em sock} & Указатель на MPTCP-\/сокет. \\
+\hline
+{\em peer} & Указатель на пира, к которому присоединяется сокет. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+0 в случае успеха, или код ошибки в противном случае. 
+\end{DoxyReturn}
+\Hypertarget{mptcp_8h_a3eb06db7d0a3f5232f2c51b5683563d7}\index{mptcp.h@{mptcp.h}!ovpn\_mptcp\_socket\_detach@{ovpn\_mptcp\_socket\_detach}}
+\index{ovpn\_mptcp\_socket\_detach@{ovpn\_mptcp\_socket\_detach}!mptcp.h@{mptcp.h}}
+\doxysubsubsection{\texorpdfstring{ovpn\_mptcp\_socket\_detach()}{ovpn\_mptcp\_socket\_detach()}}
+{\footnotesize\ttfamily \label{mptcp_8h_a3eb06db7d0a3f5232f2c51b5683563d7} 
+void ovpn\+\_\+mptcp\+\_\+socket\+\_\+detach (\begin{DoxyParamCaption}\item[{struct socket \texorpdfstring{$\ast$}{*}}]{sock}{}\end{DoxyParamCaption})}
+
+
+
+Отсоединяет сокет MPTCP от пира Open\+VPN. 
+
+Восстанавливает исходные колбэки сокета и очищает ресурсы, связанные с MPTCP. 
+\begin{DoxyParams}{Аргументы}
+{\em sock} & Указатель на структуру {\ttfamily socket}, которую нужно отсоединить.\\
+\hline
+\end{DoxyParams}
+Отсоединяет сокет MPTCP от пира Open\+VPN.
+
+Восстанавливает оригинальные колбэки сокета, отменяет все запланированные задачи и очищает кольцевые буферы приема и передачи. 
+\begin{DoxyParams}{Аргументы}
+{\em sock} & Указатель на структуру {\ttfamily socket} для отсоединения. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{mptcp_8h_a4bd004fbd0b5b7c4de1bb6561ac805fa}\index{mptcp.h@{mptcp.h}!ovpn\_queue\_mptcp\_skb@{ovpn\_queue\_mptcp\_skb}}
+\index{ovpn\_queue\_mptcp\_skb@{ovpn\_queue\_mptcp\_skb}!mptcp.h@{mptcp.h}}
+\doxysubsubsection{\texorpdfstring{ovpn\_queue\_mptcp\_skb()}{ovpn\_queue\_mptcp\_skb()}}
+{\footnotesize\ttfamily \label{mptcp_8h_a4bd004fbd0b5b7c4de1bb6561ac805fa} 
+void ovpn\+\_\+queue\+\_\+mptcp\+\_\+skb (\begin{DoxyParamCaption}\item[{struct ovpn\+\_\+peer \texorpdfstring{$\ast$}{*}}]{peer}{, }\item[{struct sk\+\_\+buff \texorpdfstring{$\ast$}{*}}]{skb}{}\end{DoxyParamCaption})}
+
+
+
+Помещает skb в очередь для отправки через MPTCP. 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em peer} & Указатель на структуру {\ttfamily ovpn\+\_\+peer}, представляющую удаленного пира. \\
+\hline
+{\em skb} & Указатель на {\ttfamily sk\+\_\+buff}, содержащий пакет для отправки.\\
+\hline
+\end{DoxyParams}
+Помещает skb в очередь для отправки через MPTCP.
+
+
+\begin{DoxyParams}{Аргументы}
+{\em peer} & Указатель на пира-\/получателя. \\
+\hline
+{\em skb} & Указатель на {\ttfamily sk\+\_\+buff} для отправки. \\
+\hline
+\end{DoxyParams}
